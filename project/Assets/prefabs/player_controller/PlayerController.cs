@@ -64,16 +64,30 @@ public class PlayerController : MonoBehaviour {
 		}
 		
         // check if the player stops running
-		if (Input.GetKeyUp(KeyCode.LeftShift)) {
+		if (Input.GetButtonUp("Sprint")) {
 			isRunning = false;
 		}
 	}
 	
 	void checkGrounded() {
+        /* ==============
+         * REMEMBER
+         * ==============
+         * If you change the size of the prefab, you may have
+         * to change the length of the ray to ensure it hits
+         * the ground.
+         * 
+         * All obstacles/walls/floors must have rigidbodies
+         * attached to them. If not, Unity physics may get
+         * confused and the player can jump really high
+         * when in a corner between 2 walls for example.
+         */
+        float rayLength = 0.7f;
         RaycastHit hit;
-        Ray ray = new Ray(transform.position - new Vector3(0, 0.9f, 0), -transform.up);
+        Ray ray = new Ray(transform.position, -transform.up);
+        //Debug.DrawRay(ray.origin, ray.direction * rayLength);
         // if there is something directly below the player
-        if (Physics.Raycast(ray, out hit, 0.15f)) {
+        if (Physics.Raycast(ray, out hit, rayLength)) {
             isGrounded = true;
         }
 	}
