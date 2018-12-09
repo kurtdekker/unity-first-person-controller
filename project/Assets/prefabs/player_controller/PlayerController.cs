@@ -21,8 +21,8 @@ public class PlayerController : MonoBehaviour {
     }
 
 	void Awake () {
-		rigidbody.freezeRotation = true;
-		rigidbody.useGravity = false;
+		GetComponent<Rigidbody>().freezeRotation = true;
+		GetComponent<Rigidbody>().useGravity = false;
 	}
 	
 	void FixedUpdate () {
@@ -39,19 +39,19 @@ public class PlayerController : MonoBehaviour {
 		targetVelocity = transform.TransformDirection(targetVelocity);
 		
 		// apply a force that attempts to reach our target velocity
-		Vector3 velocity = rigidbody.velocity;
+		Vector3 velocity = GetComponent<Rigidbody>().velocity;
 		Vector3 velocityChange = (targetVelocity - velocity);
 		velocityChange.y = 0;
-		rigidbody.AddForce(velocityChange, ForceMode.VelocityChange);
+		GetComponent<Rigidbody>().AddForce(velocityChange, ForceMode.VelocityChange);
 		
 		// jump
 		if (canJump && isGrounded && Input.GetButton("Jump")) {
-			rigidbody.velocity = new Vector3(velocity.x, Mathf.Sqrt(2 * jumpHeight * gravity), velocity.z);
+			GetComponent<Rigidbody>().velocity = new Vector3(velocity.x, Mathf.Sqrt(2 * jumpHeight * gravity), velocity.z);
 			isGrounded = false;
 		}
 		
 		// apply gravity
-		rigidbody.AddForce(new Vector3 (0, -gravity * rigidbody.mass, 0));
+		GetComponent<Rigidbody>().AddForce(new Vector3 (0, -gravity * GetComponent<Rigidbody>().mass, 0));
 	}
 
 	void Update() {
